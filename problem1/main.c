@@ -37,6 +37,37 @@ void printArray(struct array *parr)
 void getArray(struct array *parr)
 {
     //instanciar el arreglo
+    char cantidad[10];
+    int val;
+
+    if (fgets(cantidad, sizeof(cantidad), stdin) != NULL)
+    {
+        cantidad[strlen(cantidad) -1 ] = 0;
+
+        int successItems = sscanf(cantidad,"%d",&val);
+        if(successItems == 1)
+        {
+            parr->size=val;
+            parr->pdata = malloc(parr->size*sizeof(int));
+
+            for(int i = 0; i < parr->size; i++)
+            {
+                if (fgets(cantidad, sizeof(cantidad), stdin) != NULL)
+                {
+                    cantidad[strlen(cantidad) -1 ] = 0;
+                    int successItems = sscanf(cantidad,"%d",&val);
+
+                    if(successItems == 1)
+                    {
+                        *(parr->pdata+i) = val;
+                    }
+
+                }
+            }
+        }
+        
+    }
+
 }
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
