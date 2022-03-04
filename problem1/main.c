@@ -70,61 +70,55 @@ void getArray(struct array *parr)
 }
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
-{
-    int tempArr [arrIn1->size+arrIn2->size];
-    int size = 0, indice1 = 0, indice2 = 0;
-    arrOut -> size = 0;
+{   
+    int size=0; 
+    int len1, len2, counter = 0;
+    int i, j;
+    int *value = NULL;
 
-    for (indice1; indice1 < sizeof(tempArr);indice1++)
+    arrOut->size=0;
+    value = malloc(69*sizeof(int));
+
+    for (int g = 0; g < 69; g++)
     {
-        tempArr [indice1] = -1;
+       *(value+g)=-1;
     }
 
-    indice1 = 0; 
-    int valor, valor1, contador=0, verificador;
-
-    while (indice1 < arrIn1 ->size)
+    for(i = 0; i<arrIn1->size; i++)
     {
-        while (indice2<arrIn2->size)
+        for(j = 0; j<arrIn2->size; j++)
         {
-            valor=*(arrIn1->pdata+indice1);
-            valor1=*(arrIn2->pdata+indice2);
-            if (valor == valor1)
+            len1 = *(arrIn1->pdata+i);
+            len2 = *(arrIn2->pdata+j);
+
+            if( len1 == len2)
             {
-                if (arrOut->size!=0)
+                int check= 0;
+
+                for(int h=0; h<69; h++)
                 {
-                    verificador = 0;
-                    for (int g = 0; g < sizeof (tempArr);g++)
-                    {        
-                        if(valor1 == tempArr[g])
-                        {
-                            g = sizeof (tempArr);
-                            verificador = -1;
-                        }
-                    }
-                    if (verificador== 0)
+                    if(len1 == *(value+h))
                     {
-                        tempArr [contador]=valor;
-                        contador++;
-                        arrOut->size++;
+                        h=69;
+                        check =-1;
                     }
-                }
-                else
-                {
-                    tempArr [contador]=valor;
-                    contador++;
-                    arrOut->size++;
                 }
 
+                if(check==0)
+                {
+                    arrOut->size++;
+                    *(value+counter)=len1;
+                    counter++;
+                }
             }
-            indice2++;
         }
-        indice1++;  
     }
-    arrOut->pdata=malloc(arrOut->size*sizeof(int));
-    for (int g = 0; g < arrOut->size;g++)
+
+    arrOut->pdata = malloc(arrOut->size * sizeof(int));
+
+    for(i = 0; i<arrOut->size; i++)
     {
-        *(arrOut->pdata+g)=tempArr[g];
+        *(arrOut->pdata+i)=*(value+i);
     }
 }
 
