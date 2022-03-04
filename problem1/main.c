@@ -36,11 +36,10 @@ void printArray(struct array *parr)
 
 void getArray(struct array *parr)
 {
-    //instanciar el arreglo
     char cantidad[10];
     int val;
 
-    if (fgets(cantidad, sizeof(cantidad), stdin) != NULL)
+    if (fgets(cantidad, 10, stdin) != NULL)
     {
         cantidad[strlen(cantidad) -1 ] = 0;
 
@@ -52,7 +51,7 @@ void getArray(struct array *parr)
 
             for(int i = 0; i < parr->size; i++)
             {
-                if (fgets(cantidad, sizeof(cantidad), stdin) != NULL)
+                if (fgets(cantidad, 10, stdin) != NULL)
                 {
                     cantidad[strlen(cantidad) -1 ] = 0;
                     int successItems = sscanf(cantidad,"%d",&val);
@@ -72,7 +71,61 @@ void getArray(struct array *parr)
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
 {
-    
+    int tempArr [arrIn1->size+arrIn2->size];
+    int size = 0, indice1 = 0, indice2 = 0;
+    arrOut -> size = 0;
+
+    for (indice1; indice1 < sizeof(tempArr);indice1++)
+    {
+        tempArr [indice1] = -1;
+    }
+
+    indice1 = 0; 
+    int valor, valor1, contador=0, verificador;
+
+    while (indice1 < arrIn1 ->size)
+    {
+        while (indice2<arrIn2->size)
+        {
+            valor=*(arrIn1->pdata+indice1);
+            valor1=*(arrIn2->pdata+indice2);
+            if (valor == valor1)
+            {
+                if (arrOut->size!=0)
+                {
+                    verificador = 0;
+                    for (int g = 0; g < sizeof (tempArr);g++)
+                    {        
+                        if(valor1 == tempArr[g])
+                        {
+                            g = sizeof (tempArr);
+                            verificador = -1;
+                        }
+                    }
+                    if (verificador== 0)
+                    {
+                        tempArr [contador]=valor;
+                        contador++;
+                        arrOut->size++;
+                    }
+                }
+                else
+                {
+                    tempArr [contador]=valor;
+                    contador++;
+                    arrOut->size++;
+                }
+
+            }
+            indice2++;
+        }
+        indice1++;  
+    }
+    arrOut->pdata=malloc(arrOut->size*sizeof(int));
+    for (int g = 0; g < arrOut->size;g++)
+    {
+        *(arrOut->pdata+g)=tempArr[g];
+    }
 }
 
 void freeMemory(struct array *arr1, struct array *arr2, struct array *arr3)
