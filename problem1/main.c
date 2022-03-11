@@ -36,12 +36,90 @@ void printArray(struct array *parr)
 
 void getArray(struct array *parr)
 {
-    
+    char cantidad[10];
+    int val;
+
+    if (fgets(cantidad, 10, stdin) != NULL)
+    {
+        cantidad[strlen(cantidad) -1 ] = 0;
+
+        int successItems = sscanf(cantidad,"%d",&val);
+        if(successItems == 1)
+        {
+            parr->size=val;
+            parr->pdata = malloc(parr->size*sizeof(int));
+
+            for(int i = 0; i < parr->size; i++)
+            {
+                if (fgets(cantidad, 10, stdin) != NULL)
+                {
+                    cantidad[strlen(cantidad) -1 ] = 0;
+                    int successItems = sscanf(cantidad,"%d",&val);
+
+                    if(successItems == 1)
+                    {
+                        *(parr->pdata+i) = val;
+                    }
+
+                }
+            }
+        }
+        
+    }
+
 }
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
-{
-    
+{   
+    int size=0; 
+    int len1, len2, counter = 0;
+    int i, j;
+    int *value = NULL;
+
+    arrOut->size=0;
+    value = malloc(69*sizeof(int));
+
+    for (int g = 0; g < 69; g++)
+    {
+       *(value+g)=-1;
+    }
+
+    for(i = 0; i<arrIn1->size; i++)
+    {
+        for(j = 0; j<arrIn2->size; j++)
+        {
+            len1 = *(arrIn1->pdata+i);
+            len2 = *(arrIn2->pdata+j);
+
+            if( len1 == len2)
+            {
+                int check= 0;
+
+                for(int h=0; h<69; h++)
+                {
+                    if(len1 == *(value+h))
+                    {
+                        h=69;
+                        check =-1;
+                    }
+                }
+
+                if(check==0)
+                {
+                    arrOut->size++;
+                    *(value+counter)=len1;
+                    counter++;
+                }
+            }
+        }
+    }
+
+    arrOut->pdata = malloc(arrOut->size * sizeof(int));
+
+    for(i = 0; i<arrOut->size; i++)
+    {
+        *(arrOut->pdata+i)=*(value+i);
+    }
 }
 
 void freeMemory(struct array *arr1, struct array *arr2, struct array *arr3)
